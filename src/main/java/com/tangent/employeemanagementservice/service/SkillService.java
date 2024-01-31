@@ -21,14 +21,8 @@ public class SkillService {
 
         var skill = new Skill();
 
-        if (skillItem.getId() == null) {
-            var id = RandomIdentityGenerator.getIdentity();
-            skill.setId(id);
-        }
-        else {
-            skill = this.get(skillItem.getId());
-        }
-
+        var id = RandomIdentityGenerator.getIdentity();
+        skill.setId(id);
         skill.setSkillName(skillItem.getSkillName());
         skill.setSeniorityRating(skillItem.getSeniorityRating());
         skill.setYearsOfExperience(skillItem.getYearsOfExperience());
@@ -43,7 +37,10 @@ public class SkillService {
 
     public void deleteAll(List<Skill> skills) {
 
-        this.skillRepository.deleteAll(skills);
-
+        for (var skill: skills) {
+            if (skill.getId() != null) {
+               this.skillRepository.deleteById(skill.getId());
+            }
+        }
     }
 }
